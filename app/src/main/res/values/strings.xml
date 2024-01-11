@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">HandlerStopWatch</string>
+    <string name="zeroSeconds">0</string>
+    <string name="stop">Stop</string>
+    <string name="reset">Reset</string>
+    <string name="go">Go</string>
+</resources>
