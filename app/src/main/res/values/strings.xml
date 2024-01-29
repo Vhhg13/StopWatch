@@ -4,4 +4,7 @@
     <string name="stop">Stop</string>
     <string name="reset">Reset</string>
     <string name="go">Go</string>
+    <string name="n_channel_name">stopwatch</string>
+    <string name="n_channel_desc">Notification Channel Desctiption</string>
+    <string name="n_channel_id">1</string>
 </resources>

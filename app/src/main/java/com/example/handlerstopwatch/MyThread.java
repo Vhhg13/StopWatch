@@ -3,19 +3,20 @@ package com.example.handlerstopwatch;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.SystemClock;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
 import java.util.Objects;
 
 class MyThread extends Thread{
-    final StopWatchContainer stopWatchContainer;
-    MyThread(StopWatchContainer stopWatchContainer){
-        this.stopWatchContainer = stopWatchContainer;
-    }
-    final Handler mainHandler = new Handler(Looper.getMainLooper());
+
+    private final MutableLiveData<Long> _currentTime = new MutableLiveData<>(0L);
+    public final LiveData<Long> currentTime = _currentTime;
 
     long lastPause = SystemClock.elapsedRealtime();
     long timePassed = 0;
     Handler handler;
-    boolean isPaused = false;
+    public boolean isPaused = false;
     @Override
     public void run() {
         Looper.prepare();
@@ -35,7 +36,7 @@ class MyThread extends Thread{
         handler.post(new Runnable() {
             @Override
             public void run() {
-                mainHandler.post(() -> stopWatchContainer.updateStopWatch(String.valueOf((timePassed + SystemClock.elapsedRealtime() - lastPause)/1000)));
+                _currentTime.postValue((timePassed + SystemClock.elapsedRealtime() - lastPause)/1000);
                 handler.postDelayed(this, 100);
             }
         });
@@ -44,6 +45,6 @@ class MyThread extends Thread{
     public void reset(){
         timePassed = 0;
         lastPause = SystemClock.elapsedRealtime();
-        mainHandler.post(() -> stopWatchContainer.updateStopWatch("0"));
+        _currentTime.postValue(0L);
     }
 }
